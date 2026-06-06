@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <radialGradient id="ballm" cx="40%" cy="34%" r="80%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#f1e9d2"/>
+    </radialGradient>
+    <linearGradient id="bgm" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1546a8"/>
+      <stop offset="100%" stop-color="#0b2a6b"/>
+    </linearGradient>
+  </defs>
+  <!-- full-bleed background for maskable safe zone -->
+  <rect width="512" height="512" fill="url(#bgm)"/>
+  <!-- keep art within central ~80% safe zone -->
+  <g stroke="#d8232a" stroke-width="16" stroke-linecap="round" opacity="0.9">
+    <line x1="150" y1="214" x2="248" y2="228"/>
+    <line x1="144" y1="256" x2="242" y2="256"/>
+    <line x1="150" y1="298" x2="248" y2="284"/>
+  </g>
+  <circle cx="312" cy="256" r="92" fill="url(#ballm)" stroke="#d9cba6" stroke-width="3"/>
+  <g stroke="#d8232a" stroke-width="7" fill="none" stroke-linecap="round">
+    <path d="M258 184 C 286 222, 286 290, 258 328"/>
+    <path d="M366 188 C 340 224, 340 288, 366 324"/>
+  </g>
+</svg>

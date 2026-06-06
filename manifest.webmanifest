@@ -1,0 +1,27 @@
+{
+  "name": "Trois Prises — Compteur de lancers",
+  "short_name": "Trois Prises",
+  "description": "Compteur de lancers de baseball : balles, prises et lancers pour tes lanceurs, par équipe et par partie. Données locales seulement.",
+  "lang": "fr-CA",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#fdf6e3",
+  "theme_color": "#0b2a6b",
+  "categories": ["sports", "utilities"],
+  "icons": [
+    {
+      "src": "./icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/icon-maskable.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ]
+}
