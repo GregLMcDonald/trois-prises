@@ -318,7 +318,7 @@ body {
 .pitch-btn small { font-size: 0.75rem; font-weight: 600; opacity: 0.85; }
 .pitch-btn.prise { background: var(--vert); }
 .pitch-btn.balle { background: var(--bleu); }
-.pitch-btn.jeu { background: var(--or); grid-column: span 2; padding: 18px; }
+.pitch-btn.point { background: var(--rouge); grid-column: span 2; padding: 18px; }
 
 .pct-line {
   text-align: center;
@@ -344,7 +344,7 @@ body {
 }
 .log-chip.prise { background: var(--vert); }
 .log-chip.balle { background: var(--bleu); }
-.log-chip.jeu { background: var(--or); }
+.log-chip.point { background: var(--rouge); }
 
 /* ---------- Tableau de stats ---------- */
 .stat-table {

@@ -4,7 +4,7 @@
  * récupère automatiquement les mises à jour. La page affiche une
  * invite « Mise à jour disponible » quand un nouveau SW est prêt.
  */
-const CACHE_VERSION = 'v1.0.1';
+const CACHE_VERSION = 'v1.1.0';
 const CACHE_NAME = 'trois-prises-' + CACHE_VERSION;
 
 // Chemins relatifs pour fonctionner sous un sous-dossier GitHub Pages.

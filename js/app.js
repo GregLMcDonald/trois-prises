@@ -56,7 +56,7 @@ const getGame = (team, gid) => team && (team.games || []).find(g => g.id === gid
 
 /* ------------------------------------------------------------------ */
 /* Calculs de stats de lancers                                         */
-/* Le journal d'une partie : game.pitching[playerId] = ['prise','balle','jeu', ...] */
+/* Le journal d'une partie : game.pitching[playerId] = ['prise','balle','point', ...] */
 /* ------------------------------------------------------------------ */
 function pitchLog(game, pid) {
   if (!game.pitching) game.pitching = {};
@@ -64,10 +64,10 @@ function pitchLog(game, pid) {
   return game.pitching[pid];
 }
 function countLog(arr) {
-  const c = { balle: 0, prise: 0, jeu: 0 };
+  const c = { balle: 0, prise: 0, point: 0 };
   for (const t of arr) if (c[t] !== undefined) c[t]++;
-  const lancers = c.balle + c.prise + c.jeu;
-  const prisesEff = c.prise + c.jeu;            // prises + balles en jeu = lancers dans la zone
+  const lancers = c.balle + c.prise;            // un point accordé n'est pas un lancer
+  const prisesEff = c.prise;                     // prises dans la zone
   const pct = lancers ? Math.round((prisesEff / lancers) * 100) : 0;
   return { ...c, lancers, prisesEff, pct };
 }
@@ -464,24 +464,24 @@ function renderSaisonTab(team, body) {
   }
   const rows = players.map(p => ({ p, s: seasonTotals(team, p.id) }));
   const tot = rows.reduce((acc, { s }) => {
-    acc.balle += s.balle; acc.prise += s.prise; acc.jeu += s.jeu; acc.lancers += s.lancers; return acc;
-  }, { balle: 0, prise: 0, jeu: 0, lancers: 0 });
-  const totPct = tot.lancers ? Math.round(((tot.prise + tot.jeu) / tot.lancers) * 100) : 0;
+    acc.balle += s.balle; acc.prise += s.prise; acc.point += s.point; acc.lancers += s.lancers; return acc;
+  }, { balle: 0, prise: 0, point: 0, lancers: 0 });
+  const totPct = tot.lancers ? Math.round((tot.prise / tot.lancers) * 100) : 0;
 
   let html = `<p class="page-sub">Cumul de tous les lancers de la saison.</p>
     <div class="card table-wrap"><table class="stat-table">
     <thead><tr>
-      <th>Joueur</th><th>PJ</th><th>Lancers</th><th>Prises</th><th>Balles</th><th>En jeu</th><th>% pr.</th>
+      <th>Joueur</th><th>PJ</th><th>Lancers</th><th>Prises</th><th>Balles</th><th>Pts acc.</th><th>% pr.</th>
     </tr></thead><tbody>`;
   for (const { p, s } of rows) {
     html += `<tr data-player="${p.id}" style="cursor:pointer">
       <td>${esc(p.number ? '#' + p.number + ' ' : '')}${esc(p.name)}</td>
-      <td>${s.parties}</td><td>${s.lancers}</td><td>${s.prise}</td><td>${s.balle}</td><td>${s.jeu}</td><td>${s.pct}%</td>
+      <td>${s.parties}</td><td>${s.lancers}</td><td>${s.prise}</td><td>${s.balle}</td><td>${s.point}</td><td>${s.pct}%</td>
     </tr>`;
   }
-  html += `<tr class="row-total"><td>Total équipe</td><td></td><td>${tot.lancers}</td><td>${tot.prise}</td><td>${tot.balle}</td><td>${tot.jeu}</td><td>${totPct}%</td></tr>`;
+  html += `<tr class="row-total"><td>Total équipe</td><td></td><td>${tot.lancers}</td><td>${tot.prise}</td><td>${tot.balle}</td><td>${tot.point}</td><td>${totPct}%</td></tr>`;
   html += `</tbody></table></div>
-    <p class="hint">PJ = parties jouées (avec lancers) · % pr. = pourcentage de prises (prises + balles en jeu sur total). Touche un joueur pour le détail.</p>`;
+    <p class="hint">PJ = parties jouées (avec lancers) · % pr. = pourcentage de prises (prises sur total) · Pts acc. = points accordés (pas un lancer). Touche un joueur pour le détail.</p>`;
   body.innerHTML = html;
   body.querySelectorAll('[data-player]').forEach(r => r.onclick = () => navigate('#/equipe/' + team.id + '/joueur/' + r.dataset.player));
 }
@@ -504,7 +504,7 @@ function renderPlayer(team, pl) {
       <div class="count-card"><div class="cc-num">${s.balle}</div><div class="cc-label">Balles</div></div>
     </div>
     <div class="count-grid">
-      <div class="count-card"><div class="cc-num">${s.jeu}</div><div class="cc-label">En jeu</div></div>
+      <div class="count-card"><div class="cc-num">${s.point}</div><div class="cc-label">Pts accordés</div></div>
       <div class="count-card"><div class="cc-num">${s.pct}%</div><div class="cc-label">% prises</div></div>
       <div class="count-card"><div class="cc-num">${s.parties}</div><div class="cc-label">Parties</div></div>
     </div>`;
@@ -514,13 +514,13 @@ function renderPlayer(team, pl) {
     html += `<div class="empty" style="padding:24px"><p>Aucun lancer enregistré pour ce joueur.</p></div>`;
   } else {
     html += `<div class="card table-wrap"><table class="stat-table">
-      <thead><tr><th>Partie</th><th>Lancers</th><th>Pr.</th><th>Ba.</th><th>Jeu</th><th>% pr.</th></tr></thead><tbody>`;
+      <thead><tr><th>Partie</th><th>Lancers</th><th>Pr.</th><th>Ba.</th><th>Pts</th><th>% pr.</th></tr></thead><tbody>`;
     for (const g of played) {
       const c = countLog(g.pitching[pl.id]);
       const titre = (g.opponent ? 'c. ' + g.opponent : 'Partie');
       html += `<tr data-game="${g.id}" style="cursor:pointer">
         <td>${esc(titre)}<br><span class="li-sub">${esc(fmtDate(g.date))}</span></td>
-        <td>${c.lancers}</td><td>${c.prise}</td><td>${c.balle}</td><td>${c.jeu}</td><td>${c.pct}%</td>
+        <td>${c.lancers}</td><td>${c.prise}</td><td>${c.balle}</td><td>${c.point}</td><td>${c.pct}%</td>
       </tr>`;
     }
     html += `</tbody></table></div>`;
@@ -563,7 +563,7 @@ function renderGame(team, game) {
     for (const p of players) {
       const c = countLog((game.pitching && game.pitching[p.id]) || []);
       const sub = c.lancers
-        ? `${c.lancers} lancers · ${c.prise} pr. · ${c.balle} ba. · ${c.jeu} jeu · ${c.pct}%`
+        ? `${c.lancers} lancers · ${c.prise} pr. · ${c.balle} ba. · ${c.point} pts · ${c.pct}%`
         : 'Aucun lancer — touche pour commencer';
       html += `<button class="list-item" data-pitch="${p.id}">
         <span class="badge" style="background:${team.color}">${esc(p.number || '–')}</span>
@@ -602,8 +602,8 @@ function renderPitchCounter(team, game, pl) {
   const c = countLog(log);
   const titre = game.opponent ? ('c. ' + game.opponent) : 'Partie';
 
-  const recent = log.slice(-24);
-  const chipLabel = { prise: 'P', balle: 'B', jeu: 'J' };
+  const chipLabel = { prise: 'P', balle: 'B', point: 'PT' };
+  const recent = log.filter(t => chipLabel[t]).slice(-24);  // ignore les anciens 'jeu'
 
   let html = `
     <div class="pitcher-banner">
@@ -617,12 +617,12 @@ function renderPitchCounter(team, game, pl) {
       <div class="count-card"><div class="cc-num" id="c-balle">${c.balle}</div><div class="cc-label">Balles</div></div>
     </div>
 
-    <div class="pct-line">En jeu : <b style="color:var(--or)">${c.jeu}</b> &nbsp;·&nbsp; % de prises : <b>${c.pct}%</b></div>
+    <div class="pct-line">Points accordés : <b style="color:var(--rouge)">${c.point}</b> &nbsp;·&nbsp; % de prises : <b>${c.pct}%</b></div>
 
     <div class="pitch-buttons">
       <button class="pitch-btn prise" data-add="prise">Prise<small>strike</small></button>
       <button class="pitch-btn balle" data-add="balle">Balle<small>ball</small></button>
-      <button class="pitch-btn jeu" data-add="jeu">Balle en jeu<small>frappée en jeu</small></button>
+      <button class="pitch-btn point" data-add="point">Points accordés<small>runs allowed</small></button>
     </div>
 
     <div class="btn-row">
@@ -660,14 +660,14 @@ function renderPitchCounter(team, game, pl) {
 function refreshCounter(team, game, pl) {
   const log = pitchLog(game, pl.id);
   const c = countLog(log);
-  const chipLabel = { prise: 'P', balle: 'B', jeu: 'J' };
+  const chipLabel = { prise: 'P', balle: 'B', point: 'PT' };
   const set = (id, v) => { const e = document.getElementById(id); if (e) e.textContent = v; };
   set('c-lancers', c.lancers); set('c-prise', c.prise); set('c-balle', c.balle);
   const pct = view.querySelector('.pct-line');
-  if (pct) pct.innerHTML = `En jeu : <b style="color:var(--or)">${c.jeu}</b> &nbsp;·&nbsp; % de prises : <b>${c.pct}%</b>`;
+  if (pct) pct.innerHTML = `Points accordés : <b style="color:var(--rouge)">${c.point}</b> &nbsp;·&nbsp; % de prises : <b>${c.pct}%</b>`;
   const strip = document.getElementById('logStrip');
   if (strip) {
-    const recent = log.slice(-24);
+    const recent = log.filter(t => chipLabel[t]).slice(-24);  // ignore les anciens 'jeu'
     strip.innerHTML = recent.length
       ? recent.map(t => `<span class="log-chip ${t}">${chipLabel[t]}</span>`).join('')
       : '<span class="hint">Aucun lancer encore. Touche un bouton ci-dessus.</span>';
