@@ -1,7 +1,7 @@
 /* Trois Prises — compteur de lancers (PWA, vanilla JS) */
 'use strict';
 
-const APP_VERSION = '1.2.0';
+const APP_VERSION = '1.3.1';
 const STORE_KEY = 'troisprises.db';
 const LANG_KEY = 'troisprises.lang';
 

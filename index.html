@@ -4,11 +4,51 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="theme-color" content="#0b2a6b" />
-  <meta name="description" content="Trois Prises — compteur de lancers : balles, prises et lancers pour tes lanceurs, par équipe et par partie." />
-  <title>Trois Prises ⚾</title>
+
+  <!-- SEO / découvrabilité (FR + EN) -->
+  <title>Trois Prises — Compteur de lancers de baseball gratuit | Free Baseball Pitch Counter</title>
+  <meta name="description" content="Compteur de lancers de baseball gratuit : prises, balles et points accordés par lanceur, par équipe et par partie, avec statistiques de saison. Free baseball pitch &amp; strike counter — works offline, no account." />
+  <meta name="keywords" content="compteur de lancers, baseball, statistiques baseball, prises, balles, points accordés, lanceur, équipe, gratuit, hors-ligne, baseball pitch counter, strike counter, baseball stats app, free, offline, PWA, Québec" />
+  <meta name="author" content="Greg McDonald" />
+  <link rel="canonical" href="https://greglmcdonald.github.io/trois-prises/" />
+
+  <!-- Open Graph / partage social -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Trois Prises" />
+  <meta property="og:title" content="Trois Prises — Compteur de lancers de baseball | Free Baseball Pitch Counter" />
+  <meta property="og:description" content="Compteur de lancers de baseball gratuit (prises, balles, points accordés) par lanceur, équipe et partie. Free baseball pitch counter — works offline." />
+  <meta property="og:url" content="https://greglmcdonald.github.io/trois-prises/" />
+  <meta property="og:image" content="https://greglmcdonald.github.io/trois-prises/icons/icon-512.png" />
+  <meta property="og:image:width" content="512" />
+  <meta property="og:image:height" content="512" />
+  <meta property="og:locale" content="fr_CA" />
+  <meta property="og:locale:alternate" content="en_CA" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Trois Prises — Compteur de lancers de baseball | Free Baseball Pitch Counter" />
+  <meta name="twitter:description" content="Compteur de lancers de baseball gratuit. Free baseball pitch counter — works offline, no account." />
+  <meta name="twitter:image" content="https://greglmcdonald.github.io/trois-prises/icons/icon-512.png" />
+
+  <!-- Données structurées : application web gratuite -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Trois Prises",
+    "alternateName": "Trois Prises — Compteur de lancers / Baseball Pitch Counter",
+    "description": "Compteur de lancers de baseball gratuit (prises, balles, points accordés) avec statistiques par joueur, par partie et par saison. Free baseball pitch counter — works offline, data stays on your device.",
+    "url": "https://greglmcdonald.github.io/trois-prises/",
+    "applicationCategory": "SportsApplication",
+    "operatingSystem": "Any (Progressive Web App)",
+    "inLanguage": ["fr-CA", "en-CA"],
+    "isAccessibleForFree": true,
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CAD" }
+  }
+  </script>
+
   <link rel="manifest" href="./manifest.webmanifest" />
-  <link rel="icon" type="image/svg+xml" href="./icons/icon.svg" />
-  <link rel="apple-touch-icon" href="./icons/icon.svg" />
+  <link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png" />
+  <link rel="icon" type="image/png" sizes="512x512" href="./icons/icon-512.png" />
+  <link rel="apple-touch-icon" href="./icons/icon-192.png" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Trois Prises" />
@@ -27,7 +67,22 @@
     </div>
   </header>
 
-  <main id="view" class="view"></main>
+  <main id="view" class="view">
+    <noscript>
+      <h2>Trois Prises — compteur de lancers de baseball gratuit</h2>
+      <p>
+        Trois Prises est une application web gratuite pour <strong>compter les lancers</strong>
+        de baseball — prises, balles et points accordés — par lanceur, par équipe et par partie,
+        avec des statistiques de saison. Fonctionne hors-ligne ; les données restent sur ton appareil.
+        Cette application nécessite JavaScript.
+      </p>
+      <p>
+        Trois Prises is a free baseball <strong>pitch counter</strong> — track strikes, balls and
+        runs allowed per pitcher, per team and per game, with season stats. Works offline; your data
+        stays on your device. This app requires JavaScript to run.
+      </p>
+    </noscript>
+  </main>
 
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
 

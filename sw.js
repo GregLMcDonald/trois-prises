@@ -4,7 +4,7 @@
  * récupère automatiquement les mises à jour. La page affiche une
  * invite « Mise à jour disponible » quand un nouveau SW est prêt.
  */
-const CACHE_VERSION = 'v1.2.0';
+const CACHE_VERSION = 'v1.3.1';
 const CACHE_NAME = 'trois-prises-' + CACHE_VERSION;
 
 // Chemins relatifs pour fonctionner sous un sous-dossier GitHub Pages.
@@ -14,8 +14,8 @@ const APP_SHELL = [
   './css/styles.css',
   './js/app.js',
   './manifest.webmanifest',
-  './icons/icon.svg',
-  './icons/icon-maskable.svg',
+  './icons/icon-192.png',
+  './icons/icon-512.png',
 ];
 
 self.addEventListener('install', (event) => {
