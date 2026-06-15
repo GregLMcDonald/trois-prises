@@ -91,6 +91,23 @@ body {
 }
 .back-btn:active { background: rgba(255,255,255,0.3); }
 .header-spacer { width: 38px; }
+.settings-btn {
+  background: rgba(255,255,255,0.15);
+  border: none;
+  color: #fff;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  font-size: 1.25rem;
+  line-height: 1;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  padding: 0;
+}
+.settings-btn:active { background: rgba(255,255,255,0.3); }
+.settings-btn[hidden] { display: none; }
+.header-spacer[hidden] { display: none; }
 
 /* ---------- Vue principale ---------- */
 .view {
@@ -318,7 +335,7 @@ body {
 .pitch-btn small { font-size: 0.75rem; font-weight: 600; opacity: 0.85; }
 .pitch-btn.prise { background: var(--vert); }
 .pitch-btn.balle { background: var(--bleu); }
-.pitch-btn.point { background: var(--rouge); grid-column: span 2; padding: 18px; }
+.pitch-btn.point { background: var(--rouge); grid-column: span 2; }
 
 .pct-line {
   text-align: center;
@@ -442,6 +459,29 @@ body {
 
 .modal-actions { display: flex; gap: 10px; margin-top: 18px; }
 .modal-actions .btn { flex: 1; }
+
+/* ---------- Sélecteur de langue (réglages) ---------- */
+.lang-grid { display: flex; gap: 10px; }
+.lang-btn {
+  flex: 1;
+  padding: 14px 12px;
+  border: 1px solid var(--bordure);
+  border-radius: var(--rayon-sm);
+  background: #fff;
+  color: var(--texte);
+  font-size: 1rem;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  transition: transform 0.05s ease;
+}
+.lang-btn:active { transform: scale(0.97); }
+.lang-btn.sel {
+  background: var(--bleu);
+  color: #fff;
+  border-color: var(--bleu);
+  box-shadow: var(--ombre);
+}
 
 /* ---------- Divers ---------- */
 .toast {
